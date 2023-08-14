@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">Insert New Lecturer</div>
+                <div class="card-header">Insert New AARO</div>
                 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -19,16 +19,16 @@
                 @endif
                 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('Lecturer.store') }}">
+                    <form method="POST" action="{{ route('AARO.store') }}">
                         @csrf
                         <div class="form-group">
-                            <label for="LecturerID">Lecturer ID:</label>
-                            <input type="text" class="form-control" name="LecturerID" id="LecturerID" required placeholder="LC3547" maxlength="7">
+                            <label for="AAROID">AARO ID:</label>
+                            <input type="text" class="form-control" name="AAROID" id="AAROID" required placeholder="A0001" maxlength="5">
                         </div>
                         
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" class="form-control" name="password" id="password" required maxlength="8">
+                            <input type="password" class="form-control" name="password" id="password" required maxlength="5">
                         </div>
                         
                         <div class="form-group">
@@ -50,23 +50,8 @@
                             <label for="phone_number">Phone Number:</label>
                             <input type="tel" class="form-control" name="phone_number" required placeholder="Tel eg. 017-4139389" maxlength="11">
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="faculty">Faculty:</label>
-                            <select name="faculty" id="faculty" class="form-control">
-                                <option value="IT & Engineering">IT & Engineering</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="gender">Gender:</label>
-                            <select name="gender" id="gender" class="form-control">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
                         <br>
-                        <button type="submit" class="btn btn-primary">Create Lecturer</button>
+                        <button type="submit" class="btn btn-primary">Create AARO</button>
                     </form>
                 </div>
             </div>

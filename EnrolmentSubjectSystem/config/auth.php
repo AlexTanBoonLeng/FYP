@@ -35,11 +35,22 @@ return [
     |
     */
 
+  
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'aaro' => [
+            'driver' => 'session', // Use 'token' or other supported driver if needed
+            'provider' => 'aaros', // Use the provider for AAROs
+        ],
+        'lecturers' => [
+            'driver' => 'session', // Use 'session' driver for now
+            'provider' => 'lecturers', // Use the 'lecturers' provider
+        ],
+        // Add more guards if needed
     ],
 
     /*
@@ -64,21 +75,21 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        'students' => [
+
+        'aaros' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Student::class,
+            'model' => App\Models\Aaro::class,
         ],
-    
-        // Custom provider for lecturers
         'lecturers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Lecturer::class,
+            'model' => App\Models\Lecturer::class, // Make sure this is the correct namespace
         ],
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+
+        // Add more providers if needed
     ],
+
+    // Rest of the configuration...
+
 
     /*
     |--------------------------------------------------------------------------

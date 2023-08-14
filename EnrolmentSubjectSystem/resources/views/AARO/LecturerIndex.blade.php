@@ -45,27 +45,26 @@
             <div class="card">
                 <div class="card-header">Lecturer List</div>
                 <div class="card-body">
-                <table class="table">
-                <div>
-                        <form action="{{ route('lecturer.search') }}" method="GET">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="LecturerSearch" placeholder="Search Lecturer">
-                        <div class="input-group-append">
-                            <button class="btn btn-light" type="submit">Search</button>
+                    <table class="table">
+                        <div>
+                            <form action="{{ route('lecturer.search') }}" method="GET">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="LecturerSearch" placeholder="Search Lecturer">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-light" type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </div>
-                </form>
-                </div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                   
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <thead>
                             <tr>
                                 <th>ID</th>

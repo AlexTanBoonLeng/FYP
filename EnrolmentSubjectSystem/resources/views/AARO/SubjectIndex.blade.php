@@ -19,30 +19,33 @@
             background-color: #dddddd;
             
         }
-        
+        .edit-link:hover {
+            background-color: #0056b3;
+        }
+        .edit-link {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
     </style>
 </head>
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="card">
-                    <div class="card-header">Subject List</div>
-                    <div class="card-body">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">Subject List</div>
+                <div class="card-body">
+                    <form action="{{ route('timetable.enroll') }}" method="POST">
+                        @csrf
                         <table class="table">
-                        <div>
-                        <form action="{{ route('subject.search') }}" method="GET">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="SubjectSearch" placeholder="Search Subjects">
-                        <div class="input-group-append">
-                            <button class="btn btn-light" type="submit">Search</button>
-                        </div>
-                    </div>
-                </form>
-                </div>
-    
-    </div>
-</form>
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -71,25 +74,25 @@
                                             @endif
                                         </td>
                                         <td>
-                                    
-                                        <a href="{{ route('subject.edit', $subject->id) }}" class="edit-link">Edit</a>
-                                        <form action="{{ route('subject.delete', $subject->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                   
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                    </td>
-                                    <td>
-            <input type="checkbox" name="selected_subjects[]" value="{{ $subject->id }}">
-        </td>
+                                            <a href="{{ route('subject.edit', $subject->id) }}" class="edit-link">Edit</a>
+                                            <form action="{{ route('subject.delete', $subject->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="selected_subjects[]" value="{{ $subject->id }}">
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-                         </table>
-                    </div>
+                        </table>
+                        <button type="submit" class="btn btn-primary">Enroll Selected Subjects</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection

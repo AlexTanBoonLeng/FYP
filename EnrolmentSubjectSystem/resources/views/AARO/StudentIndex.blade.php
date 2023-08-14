@@ -1,6 +1,4 @@
 @extends('layout')
-
-
 <head>
     @extends('/AARO/AARO_MainPage')
     <style>
@@ -30,25 +28,25 @@
                 <div class="card-header">Student List</div>
                 <div class="card-body">
                     <table class="table">
-                    <div>
-                        <form action="{{ route('student.search') }}" method="GET">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="StudentSearch" placeholder="Search Student">
-                        <div class="input-group-append">
-                            <button class="btn btn-light" type="submit">Search</button>
+                        <div>
+                            <form action="{{ route('student.search') }}" method="GET">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="StudentSearch" placeholder="Search Student">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-light" type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </div>
-                </form>
-                </div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
     
                         <thead>
                             <tr>
@@ -73,10 +71,9 @@
                                     <td>{{ $student->course }}</td>
                                     <td>{{ $student->batch }}</td>
                                     <td>
-                                    <form action="{{ route('student.delete', $student->id) }}" method="POST">
+                                        <form action="{{ route('student.delete', $student->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                   
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </td>
@@ -90,4 +87,3 @@
     </div>
 </div>
 @endsection
-

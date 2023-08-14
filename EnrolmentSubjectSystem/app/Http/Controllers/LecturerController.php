@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Models\Lecturer;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 Use Session;
@@ -18,7 +19,11 @@ class LecturerController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'LecturerID' => 'required|unique:lecturers',
+            'LecturerID' => [
+                'required',
+                'unique:users,userID', // Check for uniqueness in the "users" table
+                'max:8',
+            ],
             'password' => 'required',
             'name' => 'required',
             'ic' => 'required|unique:lecturers',
@@ -27,10 +32,24 @@ class LecturerController extends Controller
             'faculty' => 'required',
             'gender' => 'required|in:Male,Female',
         ]);
+        $user = new User();
+        $user->userID = $validatedData['LecturerID'];
+        $user->name = $validatedData['name'];
+        $user->password = Hash::make($validatedData['password']); // Hash the password
+        $user->role = 'lecturer'; // Assuming 'role' is a column in the 'users' table representing user roles
+        $user->save();
 
-        $validatedData['password'] = Hash::make($validatedData['password']);
-
-        Lecturer::create($validatedData);
+        $lecturer = new Lecturer();
+        $lecturer->LecturerID = $validatedData['LecturerID'];
+        $lecturer->password = Hash::make($validatedData['password']); // Hash the password
+        $lecturer->name = $validatedData['name'];
+        $lecturer->ic = $validatedData['ic'];
+        $lecturer->email = $validatedData['email'];
+        $lecturer->phone_number = $validatedData['phone_number'];
+        $lecturer->faculty = $validatedData['faculty'];
+        $lecturer->gender = $validatedData['gender'];
+        $lecturer->save();
+       
 
         return redirect()->route('Lecturer.create')->with('success', 'Lecturer created successfully.');
     }
@@ -56,8 +75,19 @@ class LecturerController extends Controller
     public function LecturerDelete($id)
     {
         $lecturer=Lecturer::find($id);
+        if(!$lecturer){
+            return redirect()->route('lecturer.index')->with('erorr','Lecturer Profile not found.');
+        }
+
+        $User = User::where('userID',$lecturer->LecturerID)->first();
+
+        if($User && $User->role === 'lecturer'){
+            $User->delete();
+        }
+
         $lecturer->delete();
-        Session::flash('deleteSuccess',"Lecturer Profile deleted succesful!");
+    
+        Session::flash('deleteSuccess', 'lecturer Profile deleted successfully.');
         return redirect()->route('lecturer.index');
        
 
@@ -108,4 +138,37 @@ class LecturerController extends Controller
         // Pass the filtered subjects to the view
         return view('/AARO/LecturerIndex', compact('Lecturers'));
 }
+
+public function LecturerDashboard(){
+    return view ('/Lecturer/LecturerDashboard');
+}
+
+public function viewTimetable()
+{
+    $user = Session::get('user');
+
+    // Get the lecturer's ID from the session
+    $sessionLecturerId = $user->userID;
+
+    // Retrieve the subjects for the lecturer based on the session lecturer ID
+    $subjects = Subject::join('lecturers', 'subjects.lecturer_id', '=', 'lecturers.id')
+        ->where('lecturers.LecturerID', $sessionLecturerId)
+        ->get(['subjects.*']);
+    
+    $timetable = [];
+
+    // Loop through the subjects and populate the timetable array
+    foreach ($subjects as $subject) {
+        // Extract the day and time from the subject data
+        $dayAndTime = explode(' ', $subject->day_and_time);
+        $day = $dayAndTime[0]; // Corrected index
+        $time = $dayAndTime[1]; // Corrected index
+
+        // Add the subject to the timetable array
+        $timetable[$time][$day] = $subject;
+    }
+
+    return view('/Lecturer/viewTimetable', compact('timetable'));
+}
+
 }

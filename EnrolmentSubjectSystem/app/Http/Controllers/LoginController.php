@@ -1,20 +1,14 @@
 <?php
 
-use Illuminate\Routing\Controller;
-
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+namespace App\Http\Controllers;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
-
-    // Override the username method to use 'StudentID' for students and 'LecturerID' for lecturers
-    use Illuminate\Support\Facades\Auth;
-    use Illuminate\Http\Request;
-    
-
+    //
     public function showLoginForm()
     {
         return view('Login');
@@ -26,10 +20,11 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Attempt to authenticate the user
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+        // Find the user by userID
+        $user = User::where('userID', $credentials['userID'])->first();
 
+        // Check if the user exists and the password matches
+        if ($user && Hash::check($credentials['password'], $user->password)) {
             // Store user data in the session
             session()->put('user', $user);
 
@@ -38,8 +33,8 @@ class LoginController extends Controller
                 return redirect()->route('student.dashboard');
             } elseif ($user->role === 'lecturer') {
                 return redirect()->route('lecturer.dashboard');
-            } elseif ($user->role === 'aaro') {
-                return redirect()->route('aaro.dashboard');
+            } elseif ($user->role === 'AARO') {
+                return redirect()->route('student.index');
             }
         }
 
@@ -48,12 +43,9 @@ class LoginController extends Controller
     }
     public function logout()
     {
-        // Clear the user data from the session
-        session()->forget('user');
-
         // Logout the user using Laravel's built-in logout method
         Auth::logout();
-
+        Session::flush();
         // Redirect to the login page with a success message
         return redirect()->route('login')->with('success', 'You have been logged out.');
     }
