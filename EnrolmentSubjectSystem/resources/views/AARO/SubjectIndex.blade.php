@@ -33,7 +33,20 @@
             border: none;
             border-radius: 4px;
             transition: background-color 0.3s ease;
+             /* Add new styles */
         }
+        .form-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .select-container {
+            display: flex;
+            align-items: center;
+            margin-left: 200px; /* Adjust this value as needed */
+           
+        }
+        
     </style>
 </head>
 @section('content')
@@ -75,11 +88,7 @@
                                         </td>
                                         <td>
                                             <a href="{{ route('subject.edit', $subject->id) }}" class="edit-link">Edit</a>
-                                            <form action="{{ route('subject.delete', $subject->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
+                                           
                                         </td>
                                         <td>
                                             <input type="checkbox" name="selected_subjects[]" value="{{ $subject->id }}">
@@ -88,7 +97,16 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <button type="submit" class="btn btn-primary">Enroll Selected Subjects</button>
+                        <div class="form-group">
+                            <label for="remark">Remarks :</label>
+                            <input type="text" class="form-control" name="remark" required placeholder="eg. 2023B IT" maxlength="100"><br>
+
+                        </div>
+                        <div class="form-controls">
+                            <button type="submit" class="btn btn-primary">Enroll Selected Subjects</button><br>
+                           
+                        </div>
+                        
                     </form>
                 </div>
             </div>

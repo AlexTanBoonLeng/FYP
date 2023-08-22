@@ -86,3 +86,6 @@ Route::Post('/Student/StudentUpdate/{id}', [StudentController::class, 'update'])
 
 Route::get('/Lecturer/LecturerDashboard', [LecturerController::class, 'LecturerDashboard'])->name('lecturer.dashboard');
 Route::get('/Lecturer/viewTimetable', [LecturerController::class, 'viewTimetable'])->name('lecturer.timetable');
+
+Route::get('/', [TimetableController::class, 'index'])->name('subject.list');
+Route::post('/AARO/SubjectIndex', [TimetableController::class, 'enrollSubjects'])->name('timetable.enroll');

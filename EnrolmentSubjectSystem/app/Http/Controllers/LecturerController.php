@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Lecturer;
 use App\Models\Subject;
+Use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 Use Session;
@@ -146,29 +147,43 @@ public function LecturerDashboard(){
 public function viewTimetable()
 {
     $user = Session::get('user');
-
-    // Get the lecturer's ID from the session
     $sessionLecturerId = $user->userID;
 
-    // Retrieve the subjects for the lecturer based on the session lecturer ID
-    $subjects = Subject::join('lecturers', 'subjects.lecturer_id', '=', 'lecturers.id')
-        ->where('lecturers.LecturerID', $sessionLecturerId)
-        ->get(['subjects.*']);
-    
-    $timetable = [];
+    $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']; // Modify as needed
+    $startHour = 8;
+    $endHour = 17;
 
-    // Loop through the subjects and populate the timetable array
+    $subjects = DB::table('subjects')
+        ->select('subjects.*')
+        ->join('lecturers', 'subjects.lecturer_id', '=', 'lecturers.id')
+        ->join('users', 'lecturers.lecturerid', '=', 'users.userid')
+        ->where('users.userid', '=', $sessionLecturerId)
+        ->get();
+
+    $processedDataByDayHour = [];
+
     foreach ($subjects as $subject) {
-        // Extract the day and time from the subject data
-        $dayAndTime = explode(' ', $subject->day_and_time);
-        $day = $dayAndTime[0]; // Corrected index
-        $time = $dayAndTime[1]; // Corrected index
+        $schedules = explode(',', $subject->day_and_time);
 
-        // Add the subject to the timetable array
-        $timetable[$time][$day] = $subject;
+        foreach ($schedules as $schedule) {
+            $scheduleParts = explode(' ', trim($schedule));
+            $day = $scheduleParts[0];
+            list($startTime, $endTime) = explode('-', $scheduleParts[1]);
+
+            for ($hour = $startHour; $hour <= $endHour; $hour++) {
+                if ($hour >= $startTime && $hour < $endTime) {
+                    $processedDataByDayHour[$day][$hour][] = [
+                        'id' => $subject->id,
+                        'subject_id' => $subject->subject_id,
+                        'name' => $subject->name,
+                        'classroom'=> $subject->classroom,
+                        // Include other relevant data
+                    ];
+                }
+            }
+        }
     }
 
-    return view('/Lecturer/viewTimetable', compact('timetable'));
+    return view('/Lecturer/viewTimetable', compact('processedDataByDayHour', 'daysOfWeek', 'startHour', 'endHour'));
 }
-
 }
