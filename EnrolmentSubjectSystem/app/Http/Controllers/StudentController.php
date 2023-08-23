@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\User;
+use App\Models\Batch;
+use App\Models\Subject;
+use App\Models\studenttimetable;
 use Illuminate\Http\Request;
+Use DB;
 use Illuminate\Support\Facades\Hash;
 use Session;
 
@@ -12,7 +16,8 @@ class StudentController extends Controller
 {
     public function create()
     {
-        return view('AARO/Insert_Student');
+        $Batchs = Batch::all();
+        return view('AARO/Insert_Student', compact('Batchs'));
     }
 
     public function store(Request $request)
@@ -31,7 +36,7 @@ class StudentController extends Controller
             'address' =>'required',
             'faculty' => 'required',
             'course' => 'required',
-            'batch' => 'required',
+            'batch_id' => 'required',
             'gender' => 'required',
 
 
@@ -54,7 +59,7 @@ class StudentController extends Controller
             $student->address = $validatedData['address'];
             $student->faculty = $validatedData['faculty'];
             $student->course = $validatedData['course'];
-            $student->batch = $validatedData['batch'];
+            $student->batch_id = $validatedData['batch_id'];
             $student->gender = $validatedData['gender'];
             $student->save();
        
@@ -68,7 +73,8 @@ class StudentController extends Controller
     
     public function index()
     {
-        $students = Student::all();
+        
+        $students = Student::with('batch')->get();
         return view('AARO/StudentIndex', compact('students'));
     }
 
@@ -148,7 +154,57 @@ class StudentController extends Controller
         return view('/AARO/StudentIndex', compact('students'));
 }
 
-    public function dashboard(){
-        return view ('/Student/Dashboard');
+public function viewTimetable()
+{
+    $user = Session::get('user');
+    $sessionStudentId = $user->userID;
+
+    $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']; // Modify as needed
+    $startHour = 8;
+    $endHour = 17;
+
+    $student = Student::where('StudentID', $sessionStudentId)->first();
+  
+    if (!$student) {
+        // Handle case where student is not found
+        return redirect()->back()->with('error', 'Student not found.');
     }
+
+    $batchId = $student->batch_id;
+
+    $studentTimetables = studenttimetable::where('batch_id', $batchId)->get();
+
+    $subjectIds = $studentTimetables->pluck('subject_id');
+   
+    $subjects = Subject::whereIn('id', $subjectIds)->get();
+
+    $processedDataByDayHour = [];
+
+    foreach ($subjects as $subject) {
+        $schedules = explode(',', $subject->day_and_time);
+
+        foreach ($schedules as $schedule) {
+            $scheduleParts = explode(' ', trim($schedule));
+            $day = $scheduleParts[0];
+            list($startTime, $endTime) = explode('-', $scheduleParts[1]);
+
+            for ($hour = $startHour; $hour <= $endHour; $hour++) {
+                if ($hour >= $startTime && $hour < $endTime) {
+                    $processedDataByDayHour[$day][$hour][] = [
+                        'id' => $subject->id,
+                        'subject_id' => $subject->subject_id,
+                        'name' => $subject->name,
+                        'classroom'=> $subject->classroom,
+                        // Include other relevant data
+                    ];
+                }
+            }
+        }
+    }
+
+    return view('/Student/StudentViewTimetable', compact('processedDataByDayHour', 'daysOfWeek', 'startHour', 'endHour'));
+}
+
+
+
 }

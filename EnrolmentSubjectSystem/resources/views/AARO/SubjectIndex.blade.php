@@ -1,7 +1,9 @@
 
-@extends('layout')
+@extends('layouts.app')
+
+@section('contents')
 <head>
-    @extends('/AARO/AARO_MainPage')
+ 
     <style>
         table {
             font-family: arial, sans-serif;
@@ -49,7 +51,7 @@
         
     </style>
 </head>
-@section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -80,11 +82,10 @@
                                         <td>{{ $subject->day_and_time }}</td>
                                         <td>{{ $subject->classroom }}</td>
                                         <td>
-                                            @if ($subject->lecturer)
                                                 {{ $subject->lecturer->name }}
-                                            @else
-                                                No Assigned Lecturer
-                                            @endif
+                                          
+                                
+                                         
                                         </td>
                                         <td>
                                             <a href="{{ route('subject.edit', $subject->id) }}" class="edit-link">Edit</a>
@@ -98,10 +99,14 @@
                             </tbody>
                         </table>
                         <div class="form-group">
-                            <label for="remark">Remarks :</label>
-                            <input type="text" class="form-control" name="remark" required placeholder="eg. 2023B IT" maxlength="100"><br>
-
-                        </div>
+                                <label>Batch:</label>
+                                <select name="batch_id" class="form-control">
+                                    <option value="">Select Batch</option>
+                                    @foreach($Batchs as $batch)
+                                        <option value="{{ $batch->id }}">{{ $batch->BatchID }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         <div class="form-controls">
                             <button type="submit" class="btn btn-primary">Enroll Selected Subjects</button><br>
                            

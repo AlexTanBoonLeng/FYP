@@ -11,12 +11,17 @@ class studenttimetable extends Model
 
     use HasFactory;
     protected $fillable = [
-      'subject_id', 'remarks',
+      'subject_id', 'batch_id',
   ];
 
   public function subject()
   {
       return $this->belongsTo(Subject::class);
   }
+  public function batch()
+  {
+      return $this->belongsTo(Batch::class);
+  }
+  
   
 }

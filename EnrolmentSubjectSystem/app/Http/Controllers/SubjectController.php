@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 use Session;
 use App\Models\Subject;
 use App\Models\Lecturer;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 class SubjectController extends Controller
 {
     public function create()
     {
+        
         $lecturers = Lecturer::all();
-        return view('/AARO/Insert_Subject', compact('lecturers'));
+        return view('/AARO/Insert_Subject', compact('lecturers','Batchs'));
     }
 
     public function store(Request $request)
@@ -40,9 +42,11 @@ class SubjectController extends Controller
     public function SubjectList()
     {
         // Fetch subjects along with their associated lecturer information
-        $Subjects = Subject::with('lecturer')->get();
-
-        return view('/AARO/SubjectIndex', compact('Subjects'));
+        $Subjects = Subject::with('lecturer', 'batch')->get();
+    
+        $Batchs = Batch::all(); // Fetch all batches for the dropdown
+    
+        return view('/AARO/SubjectIndex', compact('Subjects', 'Batchs'));
     }
 
     public function SubjectEdit($id)

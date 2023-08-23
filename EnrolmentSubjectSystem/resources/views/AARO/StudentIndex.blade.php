@@ -1,6 +1,8 @@
-@extends('layout')
+@extends('layouts.app')
+
+@section('contents')
 <head>
-    @extends('/AARO/AARO_MainPage')
+  
     <style>
         table {
             font-family: arial, sans-serif;
@@ -20,7 +22,6 @@
     </style>
 </head>
 
-@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -69,7 +70,7 @@
                                     <td>{{ $student->ic }}</td>
                                     <td>{{ $student->faculty }}</td>
                                     <td>{{ $student->course }}</td>
-                                    <td>{{ $student->batch }}</td>
+                                    <td>{{ $student->batch->BatchID }}</td>
                                     <td>
                                         <form action="{{ route('student.delete', $student->id) }}" method="POST">
                                             @csrf

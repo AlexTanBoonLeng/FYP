@@ -1,10 +1,10 @@
 
-@extends('layout')
+@extends('layouts.StudentApp')
+@section('contents')
 <head>
-@extends('/Student/Student_MainPage')
 
 </head>
-@section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-auto" style="width: 500px;">

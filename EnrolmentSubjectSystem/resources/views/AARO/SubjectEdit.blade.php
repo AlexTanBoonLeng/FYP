@@ -1,11 +1,13 @@
-@extends('layout')
+@extends('layouts.app')
+
+@section('contents')
 
 
 <head>
-@extends('/AARO/AARO_MainPage')
+
 
 </head>
-@section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">

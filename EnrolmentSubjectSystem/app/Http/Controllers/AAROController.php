@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Aaro;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -95,6 +96,22 @@ public function AARODelete($id)
     Session::flash('deleteSuccess', 'AARO Profile deleted successfully.');
     return redirect()->route('AARO.index');
 }
-   
+public function Batchcreate()
+{
+    return view('AARO/InsertBatch');
+}
+
+public function Batchstore(Request $request)
+    {
+        $request->validate([
+            'BatchID' => 'required|string|max:10|unique:batches',
+        ]);
+
+        Batch::create([
+            'BatchID' => $request->BatchID,
+        ]);
+
+        return redirect()->route('Batch.create')->with('success', 'Batch added successfully.');
+    }
 }
 

@@ -1,8 +1,8 @@
-@extends('layout')
+@extends('layouts.app')
 
-@section('content')
+@section('contents')
 <head>
-    @extends('/AARO/AARO_MainPage')
+  
     <style>
         /* Your styles here */
     </style>

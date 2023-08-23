@@ -1,7 +1,6 @@
-@extends('layout')
-@extends('/AARO/AARO_MainPage')
+@extends('layouts.app')
 
-@section('content')
+@section('contents')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -73,9 +72,14 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="batch">Batch:</label>
-                            <input type="text" class="form-control" name="batch" required>
-                        </div>
+                                <label>Batch:</label>
+                                <select name="batch_id" class="form-control">
+                                    <option value="">Select Batch</option>
+                                    @foreach($Batchs as $batch)
+                                        <option value="{{ $batch->id }}">{{ $batch->BatchID }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         
                         <div class="form-group">
                             <label for="gender">Gender:</label>

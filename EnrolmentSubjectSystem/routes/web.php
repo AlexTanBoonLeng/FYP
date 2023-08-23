@@ -8,6 +8,7 @@ use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\AAROController;
 use App\Http\Controllers\LoginController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +40,8 @@ Route::get('/StudentSearch', [StudentController::class, 'StudentSearch'])->name(
 
 Route::get('/AARO/Insert_Lecturer', [LecturerController::class, 'create'])->name('Lecturer.create');
 Route::post('Lecturer.create', [LecturerController::class, 'store'])->name('Lecturer.store');
+Route::get('/AARO/InsertBatch', [AAROController::class, 'Batchcreate'])->name('Batch.create');
+Route::post('Batch.create', [AAROController::class, 'Batchstore'])->name('Batch.store');
 Route::get('/AARO/LecturerIndex', [LecturerController::class, 'LecturerIndex'])->name('lecturer.index');
 Route::get('/AARO/LecturerEdit/{id}', [LecturerController::class, 'LecturerEdit'])->name('lecturer.edit');
 Route::post('AARO/LecturerUpdate/{id}', [LecturerController::class, 'LecturerUpdate'])->name('lecturer.update');
@@ -87,5 +90,10 @@ Route::Post('/Student/StudentUpdate/{id}', [StudentController::class, 'update'])
 Route::get('/Lecturer/LecturerDashboard', [LecturerController::class, 'LecturerDashboard'])->name('lecturer.dashboard');
 Route::get('/Lecturer/viewTimetable', [LecturerController::class, 'viewTimetable'])->name('lecturer.timetable');
 
-Route::get('/', [TimetableController::class, 'index'])->name('subject.list');
+Route::get('/AARO/dashboard', function () {return view('AARO/dashboard');})->name('dashboard');
 Route::post('/AARO/SubjectIndex', [TimetableController::class, 'enrollSubjects'])->name('timetable.enroll');
+
+Route::get('/Student/Studentdashboard', function () {return view('Student/Studentdashboard');})->name('Studentdashboard');
+Route::get('/Lecturer/LecturerDashboard', function () {return view('Lecturer/LecturerDashboard');})->name('LecturerDashboard');
+
+Route::get('/Student/StudentViewTimetable', [StudentController::class, 'viewTimetable'])->name('Student.timetable');

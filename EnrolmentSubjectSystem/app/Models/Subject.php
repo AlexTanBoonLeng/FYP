@@ -16,5 +16,10 @@ class Subject extends Model
     {
         return $this->belongsTo(Lecturer::class);
     }
+    public function batch()
+    {
     
+        return $this->belongsTo(Batch::class);
+    }
+
 }

@@ -1,8 +1,9 @@
+@extends('layouts.app')
 
-@extends('layout')
+@section('contents')
 
 <head>
-    @extends('/AARO/AARO_MainPage')
+
     <style>
         table {
             font-family: arial, sans-serif;
@@ -38,7 +39,7 @@
         }
     </style>
 </head>
-@section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
