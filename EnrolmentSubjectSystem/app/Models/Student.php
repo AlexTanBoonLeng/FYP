@@ -21,7 +21,14 @@ class Student extends Model implements Authenticatable
         'address',
         'faculty',
         'course',
-        'batch',
         'gender',
+        'batch_id',
     ];
+    public function batch()
+    {
+    
+        return $this->belongsTo(Batch::class);
+    }
+
+
 }
