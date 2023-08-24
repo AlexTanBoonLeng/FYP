@@ -82,10 +82,12 @@
                                         <td>{{ $subject->day_and_time }}</td>
                                         <td>{{ $subject->classroom }}</td>
                                         <td>
+                                        
+                                         @if($subject->lecturer)
                                                 {{ $subject->lecturer->name }}
-                                          
-                                
-                                         
+                                            @else
+                                                No Assigned Lecturer
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="{{ route('subject.edit', $subject->id) }}" class="edit-link">Edit</a>

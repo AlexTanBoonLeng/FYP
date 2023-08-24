@@ -13,7 +13,7 @@ class SubjectController extends Controller
     {
         
         $lecturers = Lecturer::all();
-        return view('/AARO/Insert_Subject', compact('lecturers','Batchs'));
+        return view('/AARO/Insert_Subject', compact('lecturers'));
     }
 
     public function store(Request $request)

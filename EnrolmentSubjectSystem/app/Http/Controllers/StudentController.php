@@ -111,7 +111,7 @@ class StudentController extends Controller
     $student->address = $request->input('address');
     $student->save();
 
-    return redirect()->route('student.dashboard')->with('success', 'Student details updated successfully.');
+    return redirect()->route('Studentdashboard')->with('success', 'Student details updated successfully.');
 }
 
     public function StudentDelete($id)
@@ -146,7 +146,7 @@ class StudentController extends Controller
         ->orWhere('ic', 'like', '%' . $keyword . '%')
         ->orWhere('faculty', 'like', '%' . $keyword . '%')
         ->orWhere('course', 'like', '%' . $keyword . '%')
-        ->orWhere('batch', 'like', '%' . $keyword . '%')
+        ->orWhere('batch_id', 'like', '%' . $keyword . '%')
         ->get();
        
     
