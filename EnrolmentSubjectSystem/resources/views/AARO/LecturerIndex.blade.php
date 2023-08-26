@@ -72,6 +72,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Faculty</th>
+                                <th>Phone Number</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -82,6 +83,7 @@
                                     <td>{{ $lecturer->name }}</td>
                                     <td>{{ $lecturer->email }}</td>
                                     <td>{{ $lecturer->faculty }}</td>
+                                    <td>{{ $lecturer->phone_number }}</td>
                                     <td>
                                         <!-- Style the "Edit" link as a button -->
                                         <a href="{{ route('lecturer.edit', $lecturer->id) }}" class="edit-link">Edit</a>

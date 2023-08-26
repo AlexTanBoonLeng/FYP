@@ -102,6 +102,7 @@ class LecturerController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:lecturers,email,' . $id,
             'faculty' => 'required|string|max:255',
+            'phone_number' => 'required|unique:lecturers',
         ]);
     
         // Find the lecturer by ID
@@ -118,6 +119,7 @@ class LecturerController extends Controller
         $lecturer->name = $request->input('name');
         $lecturer->email = $request->input('email');
         $lecturer->faculty = $request->input('faculty');
+        $lecturer->phone_number = $request->input('phone_number');
         $lecturer->save();
     
         // Redirect back to the edit form with a success message
@@ -132,7 +134,7 @@ class LecturerController extends Controller
         ->orWhere('name', 'like', '%' . $keyword . '%')
         ->orWhere('email', 'like', '%' . $keyword . '%')
         ->orWhere('faculty', 'like', '%' . $keyword . '%')
-   
+        ->orWhere('phone_number', 'like', '%' . $keyword . '%')
         ->get();
        
     
