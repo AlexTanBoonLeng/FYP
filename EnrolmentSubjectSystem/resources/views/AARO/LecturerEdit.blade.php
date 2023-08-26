@@ -21,11 +21,11 @@
                         @csrf
                         <div class="form-group">
                             <label for="id">ID:</label>
-                            <input type="text" class="form-control" id="id" name="id" value="{{ $lecturer->LecturerID }}" required>
+                            <input type="text" class="form-control" id="id" name="id" value="{{ $lecturer->LecturerID }}" disabled>
                         </div>
                         <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ $lecturer->name }}" required>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ $lecturer->name }}" disabled> 
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
@@ -34,6 +34,10 @@
                         <div class="form-group">
                             <label for="faculty">Faculty:</label>
                             <input type="text" class="form-control" id="faculty" name="faculty" value="{{ $lecturer->faculty }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone_number">Phone Number:</label>
+                            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $lecturer->phone_number }}" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Update Lecturer</button>
                     </form>
