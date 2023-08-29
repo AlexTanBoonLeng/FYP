@@ -19,7 +19,7 @@
             text-decoration: none;
         }
 
-        /* Change the link color on hover */
+     
         li a:hover {
             background-color: grey;
             color: white;
